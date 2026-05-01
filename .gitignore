@@ -1,0 +1,28 @@
+# ─── Secrets ───
+.env
+gsheet_credentials.json
+
+# ─── Runtime data ───
+*.db
+*.log
+.last_report_date
+
+# ─── Python ───
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# ─── IDE ───
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ─── OS ───
+Thumbs.db
+.DS_Store

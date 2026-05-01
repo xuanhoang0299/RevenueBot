@@ -1,0 +1,9 @@
+# ─── Core ───
+python-telegram-bot[job-queue]>=21.0
+python-dotenv>=1.0.0
+gspread>=6.0.0
+google-auth>=2.0.0
+unidecode>=1.3.0
+
+# ─── Optional (cho các tính năng mở rộng) ───
+# apscheduler (đi kèm python-telegram-bot[job-queue])
