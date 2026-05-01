@@ -1,6 +1,6 @@
 # 🧰 Revenue Bot — Telegram Sales & Inventory Management
 
-> Bot Telegram tự động ghi nhận doanh thu bán hàng, quản lý tồn kho và đồng bộ dữ liệu lên Google Sheets theo quý.
+> A Telegram bot that automatically records sales revenue, manages inventory, and syncs data to Google Sheets — organized by quarter.
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python)
 ![Telegram](https://img.shields.io/badge/Telegram-Bot_API-26A5E4?logo=telegram)
@@ -8,71 +8,71 @@
 
 ---
 
-## ✨ Tính năng chính
+## ✨ Key Features
 
-### 💰 Ghi nhận doanh thu
-- Gõ nhanh: `tên SP số tiền` hoặc `tên SP số_lượng số_tiền`
-- Hỗ trợ nhập không dấu tiếng Việt (tự khớp với tên trong kho)
-- Hỗ trợ format: `200`, `1tr5`, `1trieu`, `1.5trieu`
-- Tự động đồng bộ lên Google Sheets theo quý (Quý 2/2026, Quý 3/2026...)
+### 💰 Sales Revenue Tracking
+- Quick input: `product_name amount` or `product_name quantity amount`
+- Supports **Vietnamese diacritics-free input** (auto-matches inventory names)
+- Flexible amount formats: `200`, `1tr5`, `1trieu`, `1.5trieu`
+- Auto-syncs to Google Sheets, organized by quarter (Q2/2026, Q3/2026...)
 
-### 📦 Quản lý tồn kho
-- `/nhap` — Nhập hàng vào kho (tự thêm SP mới nếu chưa có)
-- `/tonkho` — Xem tồn kho (có đèn 🟢🟡🔴 theo mức)
-- `/xoanhap` — Undo nhập kho hoặc trừ số lượng cụ thể
-- Bán hàng tự động trừ kho, xóa đơn tự động hoàn kho
+### 📦 Inventory Management
+- `/nhap` — Restock items (auto-creates new products if not found)
+- `/tonkho` — View inventory with color-coded stock levels (🟢🟡🔴)
+- `/xoanhap` — Undo last restock or deduct a specific quantity
+- Selling auto-deducts inventory; deleting a sale auto-restores it
 
-### 📊 Báo cáo
-- `/today` — Doanh thu hôm nay (chi tiết từng đơn)
-- `/tuan` — Doanh thu tuần này
-- `/thang` — Doanh thu tháng này
-- **Báo cáo tự động 5:30 sáng** — Tổng kết ngày hôm trước
-- Nếu máy tắt lúc 5:30 → bot gửi báo cáo khi khởi động lại
+### 📊 Reports
+- `/today` — Today's revenue (detailed, per transaction)
+- `/tuan` — This week's summary
+- `/thang` — This month's summary
+- **Auto daily report at 5:30 AM** — Previous day's sales summary
+- If the machine is off at 5:30 AM → report is sent on next startup
 
-### 🔤 Khớp tên thông minh
-- Gõ `van ep 12 ly` → tự khớp `Ván ép 12 ly` ✅
-- Gõ `dao roc giay` → tự khớp `Dao rọc giấy` ✅
-- Nhiều kết quả → bot hỏi chọn
+### 🔤 Smart Name Matching
+- Type `van ep 12 ly` → auto-matches `Ván ép 12 ly` ✅
+- Type `dao roc giay` → auto-matches `Dao rọc giấy` ✅
+- Multiple matches → bot asks user to choose
 
 ---
 
-## 🚀 Cài đặt
+## 🚀 Installation
 
-### 1. Clone repo
+### 1. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/RevenueBot.git
+git clone https://github.com/xuanhoang0299/RevenueBot.git
 cd RevenueBot
 ```
 
-### 2. Cài dependencies
+### 2. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Tạo Telegram Bot
+### 3. Create a Telegram Bot
 
-1. Mở [@BotFather](https://t.me/BotFather) trên Telegram
-2. Gõ `/newbot` → đặt tên → lấy **Bot Token**
-3. Thêm bot vào nhóm hoặc chat riêng
-4. Lấy **Chat ID** (chạy bot rồi gõ `/start`, xem log)
+1. Open [@BotFather](https://t.me/BotFather) on Telegram
+2. Send `/newbot` → set a name → copy the **Bot Token**
+3. Add the bot to a group or private chat
+4. Get your **Chat ID** (run the bot, send `/start`, check the logs)
 
-### 4. Tạo Google Sheets API
+### 4. Set up Google Sheets API
 
-1. Vào [Google Cloud Console](https://console.cloud.google.com/)
-2. Tạo project → Enable **Google Sheets API**
-3. Tạo **Service Account** → Download file JSON credentials
-4. Đổi tên thành `gsheet_credentials.json`, đặt vào thư mục project
-5. Share Google Spreadsheet cho email của Service Account (quyền **Editor**)
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a project → Enable **Google Sheets API**
+3. Create a **Service Account** → Download the JSON credentials file
+4. Rename it to `gsheet_credentials.json` and place it in the project root
+5. Share your Google Spreadsheet with the Service Account email (as **Editor**)
 
-### 5. Cấu hình .env
+### 5. Configure .env
 
 ```bash
 cp .env.example .env
 ```
 
-Sửa file `.env`:
+Edit the `.env` file:
 
 ```env
 REVENUE_BOT_TOKEN=your_bot_token_here
@@ -81,7 +81,7 @@ GSHEET_CREDENTIALS=gsheet_credentials.json
 GSHEET_SPREADSHEET_ID=your_spreadsheet_id_here
 ```
 
-### 6. Chạy bot
+### 6. Run the bot
 
 ```bash
 python revenue_bot.py
@@ -89,83 +89,83 @@ python revenue_bot.py
 
 ---
 
-## 📋 Danh sách lệnh
+## 📋 Commands
 
-| Lệnh | Ví dụ | Mô tả |
+| Command | Example | Description |
 |---|---|---|
-| Gõ text | `van ep 12 ly 2 500` | Bán 2 tấm ván ép, 500k |
-| Gõ text | `mdf 200` | Bán 1 MDF, 200k |
-| `/today` | | Doanh thu hôm nay |
-| `/tuan` | | Doanh thu tuần này |
-| `/thang` | | Doanh thu tháng này |
-| `/xoa` | | Xóa đơn cuối + hoàn kho |
-| `/nhap` | `/nhap van ep 12 ly 50` | Nhập 50 tấm vào kho |
-| `/xoanhap` | `/xoanhap` | Undo lần nhập cuối |
-| `/xoanhap` | `/xoanhap van ep 10` | Trừ 10 tấm khỏi kho |
-| `/tonkho` | `/tonkho` | Xem toàn bộ tồn kho |
-| `/tonkho` | `/tonkho van ep` | Tìm SP trong kho |
-| `/help` | | Hướng dẫn sử dụng |
+| Text input | `van ep 12 ly 2 500` | Sell 2 units, 500k VND |
+| Text input | `mdf 200` | Sell 1 unit, 200k VND |
+| `/today` | | Today's revenue |
+| `/tuan` | | This week's revenue |
+| `/thang` | | This month's revenue |
+| `/xoa` | | Delete last sale + restore inventory |
+| `/nhap` | `/nhap van ep 12 ly 50` | Restock 50 units |
+| `/xoanhap` | `/xoanhap` | Undo last restock |
+| `/xoanhap` | `/xoanhap van ep 10` | Deduct 10 units from inventory |
+| `/tonkho` | `/tonkho` | View all inventory |
+| `/tonkho` | `/tonkho van ep` | Search inventory |
+| `/help` | | Usage guide |
 
 ---
 
-## 🏗️ Kiến trúc hệ thống
+## 🏗️ System Architecture
 
 ```
 ┌─────────────┐     ┌──────────────┐     ┌──────────────────────┐
 │  Telegram    │────▶│  Revenue Bot │────▶│   Google Sheets      │
-│  (User gõ)  │◀────│  (Python)    │────▶│  ┌────────────────┐  │
-└─────────────┘     │              │     │  │ Quý 2/2026     │  │
-                    │  ┌────────┐  │     │  │ (Doanh thu)    │  │
+│  (User)      │◀────│  (Python)    │────▶│  ┌────────────────┐  │
+└─────────────┘     │              │     │  │ Q2/2026        │  │
+                    │  ┌────────┐  │     │  │ (Revenue)      │  │
                     │  │ SQLite │  │     │  ├────────────────┤  │
-                    │  │   DB   │  │     │  │ Tồn Kho        │  │
-                    │  └────────┘  │     │  │ (Inventory)    │  │
+                    │  │   DB   │  │     │  │ Inventory      │  │
+                    │  └────────┘  │     │  │ (Stock)        │  │
                     └──────────────┘     │  └────────────────┘  │
                                         └──────────────────────┘
 ```
 
-### Cấu trúc Google Sheets
+### Google Sheets Structure
 
-| Sheet | Mô tả | Dữ liệu |
+| Sheet | Description | Data |
 |---|---|---|
-| `Quý X/YYYY` | Doanh thu theo quý | Tự tạo khi qua quý mới |
-| `Tồn Kho` | Danh sách SP + SL | STT, Tên, Số lượng, Đơn vị |
+| `Quý X/YYYY` | Quarterly revenue | Auto-created on quarter change |
+| `Tồn Kho` | Product inventory | ID, Name, Quantity, Unit |
 
 ---
 
-## 📁 Cấu trúc project
+## 📁 Project Structure
 
 ```
 RevenueBot/
-├── revenue_bot.py          # Bot chính
-├── setup_inventory.py      # Script import dữ liệu tồn kho ban đầu
-├── requirements.txt        # Dependencies
-├── .env.example            # Template cấu hình
+├── revenue_bot.py          # Main bot logic
+├── setup_inventory.py      # One-time script to import initial inventory
+├── requirements.txt        # Python dependencies
+├── .env.example            # Configuration template
 ├── .gitignore
 └── README.md
 ```
 
 ---
 
-## ⚙️ Công nghệ
+## ⚙️ Tech Stack
 
 - **Python 3.11+**
-- **python-telegram-bot** — Telegram Bot API
-- **gspread** — Google Sheets API
-- **unidecode** — Bỏ dấu tiếng Việt cho matching
-- **SQLite** — Database local
-- **APScheduler** — Scheduled jobs (báo cáo tự động)
+- **python-telegram-bot** — Telegram Bot API wrapper
+- **gspread** — Google Sheets API client
+- **unidecode** — Vietnamese diacritics removal for smart matching
+- **SQLite** — Local database
+- **APScheduler** — Scheduled jobs (auto daily reports)
 
 ---
 
-## 📝 Ghi chú
+## 📝 Notes
 
-- Bot chỉ chạy **1 instance** tại 1 thời điểm (tránh lỗi 409 Conflict)
-- Dữ liệu doanh thu lưu cả local (SQLite) và cloud (Google Sheets)
-- Có thể sửa tồn kho trực tiếp trên Google Sheets — bot đọc realtime
-- File `setup_inventory.py` dùng để import danh sách SP ban đầu (chạy 1 lần)
+- Only **one bot instance** should run at a time (to avoid 409 Conflict errors)
+- Sales data is stored both locally (SQLite) and in the cloud (Google Sheets)
+- You can edit inventory directly on Google Sheets — the bot reads in real-time
+- `setup_inventory.py` is used to import the initial product list (run once)
 
 ---
 
 ## 📄 License
 
-MIT License — Tự do sử dụng và chỉnh sửa.
+MIT License — Free to use and modify.
